@@ -17,6 +17,7 @@ end function
 layerMethods.gridToIndex = function(x,y)
 	width = self.__cWid
 	index = y * width + x
+	return index	
 end function
 
 layerMethods.getAllTiles = function
@@ -256,6 +257,7 @@ LDtkProject.defaultGridSize = function
 end function
 
 LDtkProject.levelSize = function(identifier, id=null, iid=null)
+	assertLoaded self
 	level = self.getLevel(identifier, id, iid)
 	return level.size
 end function
