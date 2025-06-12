@@ -38,12 +38,12 @@ project = LDtkProject.loadFile("levels/", true)
 
 ---
 
-### `LDtkProject.getAllLevels()`
+### `LDtkProject.getAllLevels`
 Returns a list of all levels.
 
 ```lua
-for level in project.getAllLevels()
-  pprint(level.name())
+for level in project.getAllLevels
+  pprint(level.name)
 end
 ```
 
@@ -63,7 +63,7 @@ Same as `getLevel`, but returns `null` if not found (no error).
 
 ---
 
-### `LDtkProject.getAllTilesets()`
+### `LDtkProject.getAllTilesets`
 Returns all tilesets.
 
 ---
@@ -124,7 +124,7 @@ ppprint [size.width, size.height]
 Returns the name of the layer.
 
 ```lua
-pprint layer.name() --> "Collision"
+pprint layer.name --> "Collision"
 ```
 
 ---
@@ -188,12 +188,12 @@ player = level.getEntity("Player")
 Returns the level name.
 
 ```lua
-pprint level.name() --> "Level_1"
+pprint level.name --> "Level_1"
 ```
 
 ---
 
-### `levelMethods.position()`
+### `levelMethods.position`
 Returns the world position of the level as `{x, y}`.
 
 ```lua
@@ -203,21 +203,21 @@ pos = level.position
 
 ---
 
-### `levelMethods.size()`
+### `levelMethods.size`
 Returns the size of the level in pixels.
 
 ```lua
-sz = level.size()
+sz = level.size
 // output: {sz.width, sz.height}
 ```
 
 ---
 
-### `levelMethods.gridSize()`
+### `levelMethods.gridSize`
 Returns the grid dimensions of the level.
 
 ```lua
-grid = level.gridSize()
+grid = level.gridSize
 pprint(grid.width, grid.height)
 ```
 
