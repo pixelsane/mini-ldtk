@@ -59,7 +59,8 @@ level = project.getLevel("Level_1")
 ---
 
 ### `LDtkProject.getLevelSafe(...)`
-Same as `getLevel`, but returns `null` if not found (no error).
+Same as `getLevel`, but **throws an error** if no match is found.  
+Use this when you want to catch issues early and avoid silently operating on `null`.
 
 ---
 
@@ -74,7 +75,8 @@ Returns a tileset by identifier or UID.
 ---
 
 ### `LDtkProject.getTilesetSafe(...)`
-Returns a tileset safely (returns `null` if not found).
+Same as `getTileset`, but **throws an error** if no match is found.  
+Use this when you want to catch issues early and avoid silently operating on `null`.
 
 ---
 
