@@ -248,4 +248,4 @@ end
 
 - `iid` refers to instance ID (unique per level/layer/entity).
 - `uid` refers to unique ID used by LDtk internally.
-- All `Safe` methods return `null` instead of crashing when the target is not found.
+- All `Unsafe` methods return `null` instead of crashing when the target is not found.
