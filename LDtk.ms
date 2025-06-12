@@ -1,0 +1,261 @@
+// @Pixelsane
+
+import "qa"
+import "json"
+
+errorPrefix = "LDTKError:"
+
+// classMethods (are only appended when needed, hence it does not exist in data.levels[])
+LDtkProps = {"supersimple": false, "data":null}
+levelMethods = new {}
+layerMethods = new {}
+  
+layerMethods.name = function
+	return self.identifier
+end function
+
+layerMethods.gridToIndex = function(x,y)
+	width = self.__cWid
+	index = y * width + x
+end function
+
+layerMethods.getAllTiles = function
+	return self.gridTiles
+end function
+
+layerMethods.getIntGridAt = function(x,y)
+	width = self.__cWid
+	index = y * width + x
+	return self.intGridCsv[index]
+end function
+
+levelMethods.getAllEntities = function
+	entities = []
+	for i in range(0, self.layerInstances.len - 1)
+		layer = self.layerInstances[i]
+		if layer.__type == "Entities" then
+			for j in range(0, layer.entityInstances.len - 1)
+				entities.push(layer.entityInstances[j])
+			end for
+		end if
+	end for
+	return entities
+end function
+
+levelMethods.getEntity = function(identifier, iid = null)
+	allEntities = self.getAllEntities
+	for i in range(0, allEntities.len - 1)
+		pprint allEntities[i].__identifier
+		matchIdentifier = allEntities[i].__identifier == identifier
+		matchIid = allEntities[i].iid == iid
+		matchAny = (matchIdentifier or matchIid)
+		if matchAny then
+			return allEntities[i]
+		end if
+	end for
+end function
+
+levelMethods.name = function
+	return self.identifier
+end function
+
+levelMethods.position = function
+	return {"x": self.worldX, "y": self.worldY}
+end function
+
+levelMethods.size = function
+	return {"width": self.pxWid, "height": self.pxHei}
+end function
+
+levelMethods.gridSize = function
+	gridSize = self.size
+	return {"width": self.pxWid / gridSize.width, "height": self.pxHei / gridSize.height}
+end function
+
+levelMethods.getLayer = function(identifier, iid=null)
+	for i in range(0, self.layerInstances.len)
+		instance = self.layerInstances[i]
+		matchIdentifier = identifier == instance.__identifier
+		matchiid = iid == instance.iid
+		matchAny = (matchIdentifier or matchiid)
+		if matchAny then
+			return instance + layerMethods
+		end if
+	end for
+end function
+
+levelMethods.getIntGridAt = function(layerIdentifier,x,y)
+	return self.getLayer(layerIdentifier).getIntGrid(x,y)
+end function
+
+// Main class
+globals.LDtkProject = new LDtkProps
+
+assertLoaded = function(project)
+	qa.assert(project.data != null, errorPrefix + " No valid LDtkProject loaded!")
+end function
+
+// Load a project first before anything else!
+LDtkProject.loadFile = function(dir, supersimple = false)
+	raw = file.open(dir)
+	
+	qa.assert((supersimple == false or supersimple == true), "Provided supersimple value: (" + supersimple + ") is not a valid value, please pass a boolean!")
+	qa.assert(not(raw isa string), errorPrefix + dir + " does not exist or cannot be found!")
+	parsed = json.parse(raw.read)
+	raw.close
+	
+	self.data = parsed
+end function
+
+LDtkProject.getAllLevels = function
+	assertLoaded self
+	return self.data.levels
+end function
+
+LDtkProject.getLevel = function(identifier, iid=null, uid=null)
+	assertLoaded self
+	allLevels = self.getAllLevels
+	
+	for i in range(0, allLevels.len - 1)
+		matchIdentifier = allLevels[i].identifier == identifier
+		matchiid = allLevels[i].iid == iid
+		matchuid = allLevels[i].uid == uid
+		matchAny = (matchIdentifier or matchiid or matchuid)	
+		if matchAny then
+			return allLevels[i] + new levelMethods
+		end if
+	end for
+end function
+
+// Asserts and crashes if level does not exist
+LDtkProject.getLevelSafe = function(identifier, iid=null, uid=null)
+	assertLoaded self
+	isExisting = false
+	allLevels = self.getAllLevels
+	for i in range(0, allLevels.len - 1)
+		matchIdentifier = allLevels[i].identifier == identifier
+		matchiid = allLevels[i].iid == iid
+		matchuid = allLevels[i].uid == uid
+		matchAny = (matchIdentifier or matchiid or matchuid)	
+		if matchAny then
+			isExisting = true
+			return allLevels[i]
+		end if
+	end for
+	
+	qa.assertEqual(isExisting, true, errorPrefix + " no matching identifier("+identifier+"), iid("+iid+ "), or uid("+uid+"). Please check your getLevelSafe call")
+end function
+
+LDtkProject.getAllTilesets = function
+	assertLoaded self
+	return self.data.defs.tilesets
+end function
+
+LDtkProject.getTileset = function(identifier, uid=null)
+	assertLoaded self
+	allTilesets = self.getAllTilesets
+	
+	for i in range(0, allTilesets.len - 1)
+		matchIdentifier = allTilesets[i].identifier == identifier
+		matchuid = allTilesets[i].uid == uid
+		matchAny = (matchuid or matchIdentifier)
+		
+		if matchAny then
+			return allTilesets[i]
+		end if
+	end for
+end function
+
+LDtkProject.getTilesetSafe = function(identifier, uid=null)
+	assertLoaded self
+	isExisting = false
+	allTilesets = self.getAllTilesets
+	
+	for i in range(0, allTilesets.len - 1)
+		matchIdentifier = allTilesets[i].identifier == identifier
+		matchuid = allTilesets[i].uid == uid
+		matchAny = matchuid == true or matchIdentifier == true
+		
+		if matchAny then
+			isExisting = true
+			return allTilesets[i]
+		end if
+	end for
+	
+	qa.assertEqual(isExisting, true, errorPrefix + " no matching identifier("+identifier+"), or uid("+uid+"). Please check your getTilesetSafe call")
+end function
+
+LDtkProject.getAllEnums = function
+	assertLoaded self
+	return self.data.defs.enums
+end function
+
+LDtkProject.getEnum = function(identifier, uid=null)
+	assertLoaded self
+	allEnums = self.getAllEnums
+	
+	for i in range(0, allEnums.len - 1)
+		matchIdentifier = allEnums[i].identifier == identifier
+		matchuid = allEnums[i].uid == uid
+		matchAny = (matchIdentifier or matchuid)	
+		if matchAny then
+			return allEnums[i]
+		end if
+	end for
+end function
+
+LDtkProject.getEnumSafe = function(identifier, uid=null)
+	assertLoaded self
+	isExisting = false
+	allEnums = self.getAllEnums
+	
+	for i in range(0, allEnums.len - 1)
+		matchIdentifier = allEnums[i].identifier == identifier
+		matchuid = allEnums[i].uid == uid
+		matchAny = (matchIdentifier or matchuid)	
+		if matchAny then
+			isExisting = true
+			return allEnums[i]
+		end if
+	end for
+	
+	qa.assertEqual(isExisting, true, errorPrefix + " no matching identifier("+identifier+"), or uid("+uid+"). Please check your getTilesetSafe call")
+end function
+
+LDtkProject.getEnumValue = function(id, enumIdentifier, enumUid=false)
+	assertLoaded self
+	enum = self.getEnum(enumIdentifier, enumUid)
+	values = enum.values
+	
+	for i in range(0, values.len - 1)
+		if values[i].id == id then
+			return values[i]
+		end if
+	end for
+end function
+
+LDtkProject.getEnumValueSafe = function(id, enumIdentifier, enumUid=false)
+	assertLoaded self
+	isExisting = false
+	enum = self.getEnumSafe(enumIdentifier, enumUid)
+	values = enum.values
+	
+	for i in range(0, values.len - 1)
+		if values[i].id == id then
+			isExisting = true
+			return allLevels[i]
+		end if
+	end for
+	
+	qa.assertEqual(isExisting, true, errorPrefix + " no matching identifier("+identifier+"), or uid("+uid+"). Please check your getEnumValueSafe call")
+end function
+
+LDtkProject.defaultGridSize = function
+	assertLoaded self
+	return self.data.defs.defaultGridSize
+end function
+
+LDtkProject.levelSize = function(identifier, id=null, iid=null)
+	level = self.getLevel(identifier, id, iid)
+	return level.size
+end function
