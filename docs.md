@@ -33,7 +33,7 @@ player = level.getEntity("Player")
 Loads an LDtk file from the given directory. supersimple not yet implemented.
 
 ```lua
-project = LDtkProject.loadFile("levels/", true)
+project = LDtkProject.loadFile("game/levels.ldtk", true)
 ```
 
 ---
