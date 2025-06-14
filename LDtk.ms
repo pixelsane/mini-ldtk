@@ -63,13 +63,13 @@ end function
 levelMethods.position = function
   // Returns cartesian/minimicro coordinates
   levelHeight = self.pxHei
-  x = levelHeight - self.worldX
-  y = x = self.worldX
-	return {"x": x, "y": y}
+x = self.worldX  
+y = levelHeight - self.worldY
+return {"x": x, "y": y}
 end function
 
 levelMethods.positionRaw = function
-  // Returns raw position value as intended for LDtk/screen coordinates
+	// Returns raw position value as intended for LDtk/screen coordinates
 	return {"x": self.worldX, "y": self.worldY}
 end function
 
@@ -106,14 +106,14 @@ assertLoaded = function(project)
 end function
 
 globals.translateCoords = function(coords, levelHeight, to="minimicro")
-  newCoords = coords
-  if to == "minimicro" or to == "cartesian" then
-    newCoords.y = levelHeight - coords.y
-    return newCoords
-  else if to == "ldtk" or to == "screen" or to == "LDtk" then
-    newCoords.y = coords.y + levelHeight
-    return newCoords
-  end if
+	newCoords = coords
+	if to == "minimicro" or to == "cartesian" then
+		newCoords.y = levelHeight - coords.y
+		return newCoords
+	else if to == "ldtk" or to == "screen" or to == "LDtk" then
+		newCoords.y = coords.y + levelHeight
+		return newCoords
+	end if
 end function
 
 
