@@ -293,7 +293,7 @@ Returns the **raw position of the entity**, as stored in LDtk. This reflects the
 
 ```lua
 pos = entity.positionRaw
-pprint(pos.x, pos.y)
+print(pos.x, pos.y)
 ```
 
 > Use this when working directly with LDtk's coordinate space or tile-aligned rendering.
@@ -311,6 +311,39 @@ pprint(pos.x, pos.y)
 
 > This uses `translateCoords` internally and requires the entity’s `levelHeight` to be defined (automatically set when parsing through levels).
 
+---
+
+## tileMethods
+
+### `tile.positionRaw()`
+
+Returns the **raw position of the tile** in pixels, based on LDtk's coordinate system (top-left origin).
+
+```lua
+pos = tile.positionRaw()
+print(pos.x, pos.y)
+```
+
+> Use this for working with LDtk-native layouts or matching tiles directly to visual assets.
+
+---
+
+### `tile.position()`
+
+Returns the **converted position** of the tile in Cartesian/MiniMicro coordinates, where Y increases upward.
+
+```lua
+pos = tile.position()
+print(pos.x, pos.y)
+```
+
+> Internally uses `translateCoords()` and the tile’s associated level height to flip the Y-axis appropriately.
+
+---
+
+These methods are useful when drawing or calculating logic for tiles in engines that use bottom-left origins (like MiniMicro), or when transforming LDtk data for grid-based gameplay systems.
+
+---
 
 ## 📝 Notes
 
