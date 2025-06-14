@@ -75,7 +75,7 @@ entityMethods.getAllFieldDefs = function
 end function
 
 entityMethods.getFieldDef = function(identifier, uid = null)
-	allDefs = getAllFieldDefs
+	allDefs = self.getAllFieldDefs
 	return getAnyMatch(allDefs, identifier, null, uid)
 end function
 
