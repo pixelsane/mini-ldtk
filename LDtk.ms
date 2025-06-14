@@ -5,10 +5,43 @@ import "json"
 
 errorPrefix = "LDTKError:"
 
+globals.translateCoords = function(coords, levelHeight)
+	newCoords = {} + coords
+	newCoords.y = levelHeight - coords.y
+	return newCoords
+end function
+
 // classMethods (are only appended when needed, hence it does not exist in data.levels[])
 LDtkProps = {"supersimple": false, "data":null}
 levelMethods = new {}
 layerMethods = new {}
+entityMethods = new {}
+tileMethods = new {}
+
+tileMethods.positionRaw = function
+	x = self.px[0]
+	y = self.px[1]
+	return {"x": x, "y": y}
+end function
+
+tileMethods.position = function
+	levelHeight = self.levelHeight
+	posRaw = self.positionRaw
+	return translateCoords(posRaw, levelHeight)
+end function
+
+entityMethods.positionRaw = function
+	x = self.px[0]
+	y = self.px[1]
+	return {"x": x, "y": y}
+end function
+
+entityMethods.position = function
+	levelHeight = self.levelHeight
+	posRaw = self.positionRaw
+	return translateCoords(posRaw, levelHeight)
+end function
+
   
 layerMethods.name = function
 	return self.identifier
@@ -45,13 +78,15 @@ end function
 
 levelMethods.getEntity = function(identifier, iid = null)
 	allEntities = self.getAllEntities
+	levelHeight = self.pxHei
 	for i in range(0, allEntities.len - 1)
 		pprint allEntities[i].__identifier
 		matchIdentifier = allEntities[i].__identifier == identifier
 		matchIid = allEntities[i].iid == iid
 		matchAny = (matchIdentifier or matchIid)
 		if matchAny then
-			return allEntities[i]
+			targetEntity = allEntities[i]
+			return targetEntity + levelHeight + new entityMethods
 		end if
 	end for
 end function
@@ -61,11 +96,11 @@ levelMethods.name = function
 end function
 
 levelMethods.position = function
-  // Returns cartesian/minimicro coordinates
-  levelHeight = self.pxHei
-x = self.worldX  
-y = levelHeight - self.worldY
-return {"x": x, "y": y}
+	// Returns cartesian/minimicro coordinates
+	levelHeight = self.pxHei
+	x = self.worldX  
+	y = levelHeight - self.worldY
+	return {"x": x, "y": y}
 end function
 
 levelMethods.positionRaw = function
@@ -103,12 +138,6 @@ globals.LDtkProject = new LDtkProps
 
 assertLoaded = function(project)
 	qa.assert(project.data != null, errorPrefix + " No valid LDtkProject loaded!")
-end function
-
-globals.translateCoords = function(coords, levelHeight)
-	newCoords = {} + coords
-  newCoords.y = levelHeight - coords.y
-  return newCoords
 end function
 
 
@@ -179,7 +208,7 @@ LDtkProject.getTileset = function(identifier, uid=null)
 		matchAny = (matchuid or matchIdentifier)
 		
 		if matchAny then
-			return allTilesets[i]
+			return allTilesets[i] + tileMethods
 		end if
 	end for
 end function
@@ -196,7 +225,7 @@ LDtkProject.getTilesetSafe = function(identifier, uid=null)
 		
 		if matchAny then
 			isExisting = true
-			return allTilesets[i]
+			return allTilesets[i] + new tileMethods
 		end if
 	end for
 	

@@ -281,10 +281,35 @@ ldtkPos = {"x": 100, "y": 120}
 worldPos = translateCoords(ldtkPos, 240)
 ```
 
-> This is helpful for placing objects correctly when LDtk and your game engine disagree on coordinate orientation.
-
+> This is helpful for placing objects correctly when LDtk and your minimicro disagree on coordinate orientation.
 
 ---
+
+## entityMethods
+
+### `entity.positionRaw`
+
+Returns the **raw position of the entity**, as stored in LDtk. This reflects the pixel position from the top-left corner (LDtk screen space).
+
+```lua
+pos = entity.positionRaw
+pprint(pos.x, pos.y)
+```
+
+> Use this when working directly with LDtk's coordinate space or tile-aligned rendering.
+
+---
+
+### `entity.position`
+
+Returns the **converted position** of the entity in Cartesian or MiniMicro coordinates, where the Y-axis increases upwards.
+
+```lua
+pos = entity.position
+pprint(pos.x, pos.y)
+```
+
+> This uses `translateCoords` internally and requires the entity’s `levelHeight` to be defined (automatically set when parsing through levels).
 
 
 ## 📝 Notes
