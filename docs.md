@@ -273,7 +273,8 @@ Returns the **raw position of the entity**, as stored in LDtk. This reflects the
 
 ```lua
 pos = entity.positionRaw
-print(pos.x, pos.y)
+pprint(pos)
+// output: {x: int, y: int}
 ```
 
 > Use this when working directly with LDtk's coordinate space or tile-aligned rendering.
@@ -288,7 +289,8 @@ Returns the **converted position** of the entity in Cartesian or MiniMicro coord
 
 ```lua
 pos = entity.position
-pprint(pos.x, pos.y)
+pprint(pos)
+// output: {x: int, y: int}
 ```
 
 ### `entity.getAllFields`
@@ -331,12 +333,12 @@ pprint("Speed is: " + speed)
 
 ## tileMethods
 
-### `tile.positionRaw()`
+### `tile.positionRaw`
 
 Returns the **raw position of the tile** in pixels, based on LDtk's coordinate system (top-left origin).
 
 ```lua
-pos = tile.positionRaw()
+pos = tile.positionRaw
 print(pos.x, pos.y)
 ```
 
@@ -365,5 +367,3 @@ These methods are useful when drawing or calculating logic for tiles in engines 
 
 - `iid` refers to instance ID (unique per level/layer/entity).
 - `uid` refers to unique ID used by LDtk internally.
-- All `Unsafe` methods return `null` instead of crashing when the target is not found.
-- All proceeding nested methods after level are `Safe`
