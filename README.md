@@ -30,7 +30,8 @@ The parser is minimal, but it includes everything needed for most practical use 
 [Here](https://github.com/pixelsane/mini-ldtk/blob/main/docs.md)'s a very short documentation.
 
 ```lua
-project = LDtkProject.loadFile("res/world.ldtk")
+project = new LDtkProject
+project.loadFile("res/world.ldtk")
 
 level = project.getLevel("Level_1")
 layer = level.getLayer("Collision")
