@@ -11,6 +11,34 @@ globals.translateCoords = function(coords, levelHeight)
 	return newCoords
 end function
 
+getAnyMatch = function(obj = null, identifier = null, id = null, uid = null, iid = null)
+	matchIdentifier = false
+	matchId = false
+	matchUid = false
+	matchIid = false
+	
+	for i in range(0, obj.len)
+		if identifier != null then
+			matchIdentifier = identifier == obj[i].identifier
+		end if
+		if id != null then
+			matchId = id == obj[i].id
+		end if
+		if uid != null then
+			matchUid = uid == obj[i].uid
+		end if
+		if iid != null then
+			matchIid = iid == obj[i].iid
+		end if
+		
+		cond = (matchIdentifier or matchId or matchUid or matchIid)
+		
+		if cond then
+			return obj[i]
+		end if
+	end for
+end function
+
 // classMethods (are only appended when needed, hence it does not exist in data.levels[])
 LDtkProps = {"supersimple": false, "data":null}
 levelMethods = new {}
@@ -42,7 +70,15 @@ entityMethods.position = function
 	return translateCoords(posRaw, levelHeight)
 end function
 
-  
+entityMethods.getAllFieldDefs = function
+	return self.fieldDefs
+end function
+
+entityMethods.getFieldDef = function(identifier, uid = null)
+	allDefs = getAllFieldDefs
+	return getAnyMatch(allDefs, identifier, null, uid)
+end function
+
 layerMethods.name = function
 	return self.identifier
 end function
@@ -85,8 +121,10 @@ levelMethods.getEntity = function(identifier, iid = null)
 		matchIid = allEntities[i].iid == iid
 		matchAny = (matchIdentifier or matchIid)
 		if matchAny then
-			targetEntity = allEntities[i]
-			return targetEntity + levelHeight + new entityMethods
+			targetEntity = allEntities[i] + {}
+			withMethods = targetEntity + new entityMethods
+			withMethods.levelHeight = self.pxHei
+			return withMethods
 		end if
 	end for
 end function
@@ -186,7 +224,7 @@ LDtkProject.getLevelSafe = function(identifier, iid=null, uid=null)
 		matchAny = (matchIdentifier or matchiid or matchuid)	
 		if matchAny then
 			isExisting = true
-			return allLevels[i]
+			return allLevels[i] + new levelMethods
 		end if
 	end for
 	
