@@ -83,12 +83,6 @@ level = project.getLevel("Level_1")
 
 ---
 
-### `LDtkProject.getLevelSafe(...)`
-Same as `getLevel`, but **throws an error** if no match is found.  
-Use this when you want to catch issues early and avoid silently operating on `null`.
-
----
-
 ### `LDtkProject.getAllTilesets`
 Returns all tilesets.
 
@@ -96,12 +90,6 @@ Returns all tilesets.
 
 ### `LDtkProject.getTileset(identifier, uid = null)`
 Returns a tileset by identifier or UID.
-
----
-
-### `LDtkProject.getTilesetSafe(...)`
-Same as `getTileset`, but **throws an error** if no match is found.  
-Use this when you want to catch issues early and avoid silently operating on `null`.
 
 ---
 
@@ -115,18 +103,8 @@ Returns enum by name or UID.
 
 ---
 
-### `LDtkProject.getEnumSafe(...)`
-Safe version of `getEnum`.
-
----
-
 ### `LDtkProject.getEnumValue(id, enumIdentifier, enumUid = false)`
 Returns a specific enum value by its ID and enum name or UID.
-
----
-
-### `LDtkProject.getEnumValueSafe(...)`
-Safe version of `getEnumValue`.
 
 ---
 
@@ -352,3 +330,4 @@ These methods are useful when drawing or calculating logic for tiles in engines 
 - `iid` refers to instance ID (unique per level/layer/entity).
 - `uid` refers to unique ID used by LDtk internally.
 - All `Unsafe` methods return `null` instead of crashing when the target is not found.
+- All proceeding nested methods after level are `Safe`
