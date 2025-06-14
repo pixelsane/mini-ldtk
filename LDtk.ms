@@ -106,6 +106,7 @@ LDtkProject.loadFile = function(dir, supersimple = false)
 	raw.close
 	
 	self.data = parsed
+	return self
 end function
 
 LDtkProject.getAllLevels = function

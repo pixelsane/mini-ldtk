@@ -2,7 +2,9 @@
 ## Setup
 ```lua
 // Everything is under LDtkProject class
-project = LDtkProject.loadFile("res/world.ldtk")
+// Remember to instantiate a new LDtkProject object
+project = new LDtkProject
+project.loadFile("res/world.ldtk")
 
 level = project.getLevel("Level_1")
 layer = level.getLayer("Collision")
