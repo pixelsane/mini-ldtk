@@ -11,27 +11,31 @@ globals.translateCoords = function(coords, levelHeight)
 	return newCoords
 end function
 
-getAnyMatch = function(obj = null, identifier = null, id = null, uid = null, iid = null)
+matchObj = {"identifier": null, "id": null, "identifier": null, "__identifier": null, "uid": null, "iid": null, "defuid": null}
+
+getAnyMatch = function(obj, mObj)
 	matchIdentifier = false
 	matchId = false
 	matchUid = false
 	matchIid = false
+  matchDefuid = false
+  matchDDIdentifier = false
+
+  isMatching = function(key, value)
+    if mObj[key] != null then
+      return mObj[key] == value[key]
+    end if
+  end function
 	
 	for i in range(0, obj.len)
-		if identifier != null then
-			matchIdentifier = identifier == obj[i].identifier
-		end if
-		if id != null then
-			matchId = id == obj[i].id
-		end if
-		if uid != null then
-			matchUid = uid == obj[i].uid
-		end if
-		if iid != null then
-			matchIid = iid == obj[i].iid
-		end if
+    matchIdentifier = isMatching("identifier", obj[i])
+    matchId = isMatching("id", obj[i])
+    matchUid = isMatching("uid", obj[i])
+    matchIid = isMatching("iid", obj[i])
+    matchIid = isMatching("defuid", obj[i])
+    matchIid = isMatching("__identifier", obj[i])
 		
-		cond = (matchIdentifier or matchId or matchUid or matchIid)
+		cond = (matchIdentifier or matchId or matchUid or matchIid or matchDefuid)
 		
 		if cond then
 			return obj[i]
@@ -70,13 +74,16 @@ entityMethods.position = function
 	return translateCoords(posRaw, levelHeight)
 end function
 
-entityMethods.getAllFieldDefs = function
-	return self.fieldDefs
+entityMethods.getAllFields = function
+	return self.fieldInstances
 end function
 
-entityMethods.getFieldDef = function(identifier, uid = null)
-	allDefs = self.getAllFieldDefs
-	return getAnyMatch(allDefs, identifier, null, uid)
+entityMethods.getField = function(identifier, defuid = null)
+	allDefs = self.getAllFields
+  toMatch = new matchObj
+  toMatch.__identifier = identifier
+  //toMatch.defuid = defuid
+	return getAnyMatch(allDefs, toMatch)
 end function
 
 layerMethods.name = function
