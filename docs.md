@@ -284,12 +284,48 @@ print(pos.x, pos.y)
 
 Returns the **converted position** of the entity in Cartesian or MiniMicro coordinates, where the Y-axis increases upwards.
 
+> This uses `translateCoords` internally and requires the entity’s `levelHeight` to be defined (automatically set when parsing through levels).
+
 ```lua
 pos = entity.position
 pprint(pos.x, pos.y)
 ```
 
-> This uses `translateCoords` internally and requires the entity’s `levelHeight` to be defined (automatically set when parsing through levels).
+### `entity.getAllFields`
+
+Returns a list of **all field instances** on this entity.
+
+```lua
+fields = entity.getAllFields
+for field in fields
+    pprint(field.__identifier, field.__value)
+end for
+
+> Each field instance is a table with metadata like `__identifier`, `__type`, and `__value`.
+```
+
+---
+
+
+### `entity.getField(identifier, defuid = null)`
+
+Returns the **raw field object** matching the given field name (`identifier`). You can optionally pass the `defuid` if needed to disambiguate multiple field definitions with the same name.
+
+```lua
+field = entity.getField("Speed")
+pprint(field.__type, field.__value)
+```
+
+---
+
+### `entity.getFieldValue(identifier, defuid = null)`
+
+Returns only the **value** of the field.
+
+```lua
+speed = entity.getFieldValue("Speed")
+pprint("Speed is: " + speed)
+```
 
 ---
 
@@ -308,12 +344,12 @@ print(pos.x, pos.y)
 
 ---
 
-### `tile.position()`
+### `tile.position`
 
 Returns the **converted position** of the tile in Cartesian/MiniMicro coordinates, where Y increases upward.
 
 ```lua
-pos = tile.position()
+pos = tile.position
 print(pos.x, pos.y)
 ```
 
