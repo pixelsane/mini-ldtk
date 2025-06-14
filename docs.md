@@ -28,6 +28,29 @@ player = level.getEntity("Player")
 
 # LDtk Parser Cheatsheet
 
+
+## Global and Helpers
+### `translateCoords(coords, levelHeight, to="minimicro")`
+
+Converts a coordinate table between **LDtk (top-down)** and **MiniMicro/Cartesian (bottom-up)** systems.
+
+#### Parameters:
+- `coords`: A coordinate map containing `{x, y}`
+- `levelHeight`: The height of the level in pixels
+
+#### Returns:
+A new `{x, y}` table with Y-axis flipped or adjusted.
+
+#### Example:
+```lua
+ldtkPos = {"x": 100, "y": 120}
+worldPos = translateCoords(ldtkPos, 240)
+```
+
+> This is helpful for placing objects correctly when LDtk and your minimicro disagree on coordinate orientation.
+
+---
+
 ## LDtkProject Methods
 
 ### `LDtkProject.loadFile(dir, supersimple = false)`
@@ -262,27 +285,6 @@ if level.getIntGridAt("Collision", 5, 5) > 0 then
   pprint("Blocked!")
 end
 ```
-
-## Global and Helpers
-### `translateCoords(coords, levelHeight, to="minimicro")`
-
-Converts a coordinate table between **LDtk (top-down)** and **MiniMicro/Cartesian (bottom-up)** systems.
-
-#### Parameters:
-- `coords`: A coordinate map containing `{x, y}`
-- `levelHeight`: The height of the level in pixels
-
-#### Returns:
-A new `{x, y}` table with Y-axis flipped or adjusted.
-
-#### Example:
-```lua
-ldtkPos = {"x": 100, "y": 120}
-worldPos = translateCoords(ldtkPos, 240)
-```
-
-> This is helpful for placing objects correctly when LDtk and your minimicro disagree on coordinate orientation.
-
 ---
 
 ## entityMethods
