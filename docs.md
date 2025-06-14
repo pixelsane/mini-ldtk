@@ -28,7 +28,6 @@ player = level.getEntity("Player")
 
 # LDtk Parser Cheatsheet
 
-
 ## LDtkProject Methods
 
 ### `LDtkProject.loadFile(dir, supersimple = false)`
@@ -198,12 +197,30 @@ pprint level.name --> "Level_1"
 ---
 
 ### `levelMethods.position`
-Returns the world position of the level as `{x, y}`.
+
+Returns the level's **position in Cartesian/MiniMicro coordinates**, where Y increases upward.
+
+This is useful for rendering in environments where the origin is bottom-left, such as MiniMicro.
 
 ```lua
 pos = level.position
-// output: {pos.x, pos.y}
+print(pos.x, pos.y)
 ```
+
+> Internally, this subtracts the LDtk Y-coordinate from the level height.
+
+---
+
+### `level.positionRaw`
+
+Returns the level's **raw LDtk position**, exactly as it appears in the `.ldtk` file. In LDtk, the origin is top-left.
+
+```lua
+rawPos = level.positionRaw
+print(rawPos.x, rawPos.y)
+```
+
+> Use this if you need to work in screen-space or match LDtk’s layout directly.
 
 ---
 
@@ -244,6 +261,30 @@ if level.getIntGridAt("Collision", 5, 5) > 0 then
   pprint("Blocked!")
 end
 ```
+
+## Global and Helpers
+### `translateCoords(coords, levelHeight, to="minimicro")`
+
+Converts a coordinate table between **LDtk (top-down)** and **MiniMicro/Cartesian (bottom-up)** systems.
+
+#### Parameters:
+- `coords`: A coordinate dictionary `{x, y}`
+- `levelHeight`: The height of the level in pixels
+- `to`: Target system. One of:
+  - `"minimicro"` / `"cartesian"` (default)
+  - `"ldtk"` / `"screen"` / `"LDtk"`
+
+#### Returns:
+A new `{x, y}` table with Y-axis flipped or adjusted.
+
+#### Example:
+```lua
+ldtkPos = {"x": 100, "y": 120}
+worldPos = translateCoords(ldtkPos, 240, "minimicro")
+```
+
+> This is helpful for placing objects correctly when LDtk and your game engine disagree on coordinate orientation.
+
 
 ---
 
