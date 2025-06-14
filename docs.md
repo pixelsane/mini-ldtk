@@ -34,6 +34,7 @@ player = level.getEntity("Player")
 Loads an LDtk file from the given directory. supersimple not yet implemented.
 
 ```lua
+project = new LDtkProject
 project.loadFile("game/levels.ldtk", true)
 ```
 
@@ -268,7 +269,7 @@ end
 Converts a coordinate table between **LDtk (top-down)** and **MiniMicro/Cartesian (bottom-up)** systems.
 
 #### Parameters:
-- `coords`: A coordinate dictionary `{x, y}`
+- `coords`: A coordinate map containing `{x, y}`
 - `levelHeight`: The height of the level in pixels
 - `to`: Target system. One of:
   - `"minimicro"` / `"cartesian"` (default)
