@@ -82,10 +82,14 @@ entityMethods.getField = function(identifier, defuid = null)
 	allDefs = self.getAllFields
   toMatch = new matchObj
   toMatch.__identifier = identifier
-  //toMatch.defuid = defuid
+  toMatch.defuid = defuid
 	match = getAnyMatch(allDefs, toMatch)
   qa.assert(match != null,  errorPrefix + "getField value: (" + identifier + ", "+defuid+") " + "does not exist in Entity or is not a valid field")
   return match
+end function
+
+entityMethods.getFieldValue = function(identifier, defuid = null)
+  return self.getField(identifier, defuid).__value
 end function
 
 layerMethods.name = function
