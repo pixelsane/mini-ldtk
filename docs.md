@@ -271,9 +271,6 @@ Converts a coordinate table between **LDtk (top-down)** and **MiniMicro/Cartesia
 #### Parameters:
 - `coords`: A coordinate map containing `{x, y}`
 - `levelHeight`: The height of the level in pixels
-- `to`: Target system. One of:
-  - `"minimicro"` / `"cartesian"` (default)
-  - `"ldtk"` / `"screen"` / `"LDtk"`
 
 #### Returns:
 A new `{x, y}` table with Y-axis flipped or adjusted.
@@ -281,7 +278,7 @@ A new `{x, y}` table with Y-axis flipped or adjusted.
 #### Example:
 ```lua
 ldtkPos = {"x": 100, "y": 120}
-worldPos = translateCoords(ldtkPos, 240, "minimicro")
+worldPos = translateCoords(ldtkPos, 240)
 ```
 
 > This is helpful for placing objects correctly when LDtk and your game engine disagree on coordinate orientation.
