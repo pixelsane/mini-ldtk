@@ -219,7 +219,7 @@ LDtkProject.getLevel = function(identifier, iid=null, uid=null)
   toMatch.uid = uid
   match = getAnyMatch(allLevels, toMatch)
 
-  qa.assert(match != null,  errorPrefix + "getLevel (" + identifier + ", "+defuid+") " + "does not exist in Level or is not a valid property")
+  qa.assert(match != null,  errorPrefix + "getLevel (" + identifier + ", "+ iid +") " + "does not exist in Level or is not a valid property")
   return match + new levelMethods
 end function
 
