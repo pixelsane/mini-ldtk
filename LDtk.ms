@@ -27,7 +27,7 @@ getAnyMatch = function(obj, mObj)
     end if
   end function
 	
-	for i in range(0, obj.len)
+	for i in range(0, obj.len - 1)
     matchIdentifier = isMatching("identifier", obj[i])
     matchId = isMatching("id", obj[i])
     matchUid = isMatching("uid", obj[i])
@@ -83,7 +83,9 @@ entityMethods.getField = function(identifier, defuid = null)
   toMatch = new matchObj
   toMatch.__identifier = identifier
   //toMatch.defuid = defuid
-	return getAnyMatch(allDefs, toMatch)
+	match = getAnyMatch(allDefs, toMatch)
+  qa.assert(match != null,  errorPrefix + "getField value: (" + identifier + ", "+defuid+") " + "does not exist in Entity or is not a valid field")
+  return match
 end function
 
 layerMethods.name = function
