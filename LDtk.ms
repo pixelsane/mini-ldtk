@@ -104,8 +104,20 @@ layerMethods.gridToIndex = function(x,y)
 	return index	
 end function
 
-layerMethods.getAllTiles = function
+layerMethods.getAllTilesRaw = function
 	return self.gridTiles
+end function
+
+layerMethods.getAllTiles = function
+  raw = self.getAllTilesRaw
+  translated = []
+  for tile in raw
+    newTile = tile + {}
+    newTile.px[1] = self.levelHeight - newTile.px[1]
+    translated.push newTile
+  end for
+  
+	return translated
 end function
 
 layerMethods.getIntGridAt = function(x,y)
@@ -174,6 +186,7 @@ levelMethods.getLayer = function(ddidentifier, iid=null)
   toMatch.__identifier = ddidentifier
   toMatch.iid = iid
   match = getAnyMatch(instances, toMatch)
+  match.levelHeight = self.pxHei
 
   qa.assert(match != null,  errorPrefix + "getLayer (" + ddidentifier + ", "+ iid +") " + "does not exist in Level or is not a valid property")
   return match + new layerMethods
