@@ -29,15 +29,26 @@ The parser is minimal, but it includes everything needed for most practical use 
 
 [Here](https://github.com/pixelsane/mini-ldtk/blob/main/docs.md)'s a very short documentation.
 
-```lua
+```python
+// Ensure project is loaded
 project = new LDtkProject
 project.loadFile("res/world.ldtk")
 
 level = project.getLevel("Level_1")
-layer = level.getLayer("Collision")
-
-isWall = layer.getIntGridAt(10, 5) == 1
 player = level.getEntity("Player")
+
+// Get the layers from Level
+collisionLayer = level.getLayer("Collision")
+environmentLayer = level.getLayer("Environment")
+furnitureLayer = level.getLayer("Furnitures")
+
+// Convenient single function to directly send tiles to to display
+display(5).mode = displayMode.tile
+environmentLayer.pushTilesToDisplay(display(5))
+furnitureLayer.pushTilesToDisplay(display(5))
+
+// Ex: Bounds checking using IntGrid
+isWall = layer.getIntGridAt(10, 5) == 1
 
 pprint "Player at: " + player.x + ", " + player.y
 ```

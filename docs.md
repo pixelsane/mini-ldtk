@@ -1,20 +1,31 @@
 # Basic Usage
 ## Setup
-```lua
-// Everything is under LDtkProject class
-// Remember to instantiate a new LDtkProject object
+```python
+// Ensure project is loaded
 project = new LDtkProject
 project.loadFile("res/world.ldtk")
 
 level = project.getLevel("Level_1")
-layer = level.getLayer("Collision")
-gridToCheck = layer.getIntGridAt(10, 5)
-
 player = level.getEntity("Player")
+
+// Get the layers from Level
+collisionLayer = level.getLayer("Collision")
+environmentLayer = level.getLayer("Environment")
+furnitureLayer = level.getLayer("Furnitures")
+
+// Convenient single function to directly send tiles to to display
+display(5).mode = displayMode.tile
+environmentLayer.pushTilesToDisplay(display(5))
+furnitureLayer.pushTilesToDisplay(display(5))
+
+// Ex: Bounds checking using IntGrid
+isWall = layer.getIntGridAt(10, 5) == 1
+
+pprint "Player at: " + player.x + ", " + player.y
 ```
 
 ## Access Raw LDtk Data
-```lua
+```python
   // Raw LDtk/JSON data can be found in
   raw = LDtkProject.data
 
@@ -42,7 +53,7 @@ Converts a coordinate table between **LDtk (top-down)** and **MiniMicro/Cartesia
 A new `{x, y}` table with Y-axis flipped or adjusted.
 
 #### Example:
-```lua
+```python
 ldtkPos = {"x": 100, "y": 120}
 worldPos = translateCoords(ldtkPos, 240)
 ```
@@ -56,7 +67,7 @@ worldPos = translateCoords(ldtkPos, 240)
 ### `LDtkProject.loadFile(dir, supersimple = false)`
 Loads an LDtk file from the given directory. supersimple not yet implemented.
 
-```lua
+```python
 project = new LDtkProject
 project.loadFile("game/levels.ldtk", true)
 ```
@@ -66,7 +77,7 @@ project.loadFile("game/levels.ldtk", true)
 ### `LDtkProject.getAllLevels`
 Returns a list of all levels.
 
-```lua
+```python
 for level in project.getAllLevels
   pprint(level.name)
 end
@@ -77,7 +88,7 @@ end
 ### `LDtkProject.getLevel(identifier, iid = null, uid = null)`
 Returns a level by its identifier, `iid`, or `uid`.
 
-```lua
+```python
 level = project.getLevel("Level_1")
 ```
 
@@ -97,7 +108,7 @@ Returns a tileset by identifier or UID.
 
 Convenient global helper. Grabs the specified level and layer, then calls `pushTilesToDisplay`.
 
-```lua
+```python
 project.pushTilesToDisplay("Sample", "Environment", TILE_DISP)
 ```
 
@@ -126,7 +137,7 @@ Returns the project's default grid size.
 ### `LDtkProject.levelSize(identifier, id = null, iid = null)`
 Returns size of the specified level.
 
-```lua
+```python
 size = project.levelSize("Level_1")
 ppprint [size.width, size.height]
 ```
@@ -138,7 +149,7 @@ ppprint [size.width, size.height]
 ### `layerMethods.name`
 Returns the name of the layer.
 
-```lua
+```python
 pprint layer.name --> "Collision"
 ```
 
@@ -147,7 +158,7 @@ pprint layer.name --> "Collision"
 ### `layerMethods.gridToIndex(x, y)`
 Converts grid coordinates `(x, y)` into a 1D array index.
 
-```lua
+```python
 index = layer.gridToIndex(3, 5)
 ```
 
@@ -156,7 +167,7 @@ index = layer.gridToIndex(3, 5)
 ### `layerMethods.getAllTiles`
 Returns a list of all tiles in the layer.
 
-```lua
+```python
 for tile in layer.getAllTiles
   x = tile.x
   y = tile.y
@@ -170,7 +181,7 @@ end
 
 Pushes all the tiles from this layer to a given `TileDisplay`.
 
-```lua
+```python
 layer = level.getLayer("Environment")
 layer.pushTilesToDisplay(TILE_DISP)
 ```
@@ -183,7 +194,7 @@ layer.pushTilesToDisplay(TILE_DISP)
 ### `layerMethods.getIntGridAt(x, y)`
 Returns the int grid value at the specified `(x, y)` position.
 
-```lua
+```python
 if layer.getIntGridAt(10, 12) == 1 then
   pprint "Wall here!"
 end
@@ -196,7 +207,7 @@ end
 ### `levelMethods.getAllEntities`
 Returns all entities in the level.
 
-```lua
+```python
 for ent in level.getAllEntities
   pprint(ent.identifier, ent.x, ent.y)
 end
@@ -207,7 +218,7 @@ end
 ### `levelMethods.getEntity(identifier, iid = null)`
 Returns the first matching entity by identifier or `iid`.
 
-```lua
+```python
 player = level.getEntity("Player")
 ```
 
@@ -216,7 +227,7 @@ player = level.getEntity("Player")
 ### `levelMethods.name`
 Returns the level name.
 
-```lua
+```python
 pprint level.name --> "Level_1"
 ```
 
@@ -228,7 +239,7 @@ Returns the level's **position in Cartesian/MiniMicro coordinates**, where Y inc
 
 This is useful for rendering in environments where the origin is bottom-left, such as MiniMicro.
 
-```lua
+```python
 pos = level.position
 print(pos.x, pos.y)
 ```
@@ -241,7 +252,7 @@ print(pos.x, pos.y)
 
 Returns the level's **raw LDtk position**, exactly as it appears in the `.ldtk` file. In LDtk, the origin is top-left.
 
-```lua
+```python
 rawPos = level.positionRaw
 print(rawPos.x, rawPos.y)
 ```
@@ -253,7 +264,7 @@ print(rawPos.x, rawPos.y)
 ### `levelMethods.size`
 Returns the size of the level in pixels.
 
-```lua
+```python
 sz = level.size
 // output: {sz.width, sz.height}
 ```
@@ -263,7 +274,7 @@ sz = level.size
 ### `levelMethods.gridSize`
 Returns the grid dimensions of the level.
 
-```lua
+```python
 grid = level.gridSize
 pprint(grid.width, grid.height)
 ```
@@ -273,7 +284,7 @@ pprint(grid.width, grid.height)
 ### `levelMethods.getLayer(identifier, iid = null)`
 Returns a specific layer by its identifier or `iid`.
 
-```lua
+```python
 collision = level.getLayer("Collision")
 ```
 
@@ -282,7 +293,7 @@ collision = level.getLayer("Collision")
 ### `levelMethods.getIntGridAt(layerIdentifier, x, y)`
 Returns the int grid value at `(x, y)` for the specified layer.
 
-```lua
+```python
 if level.getIntGridAt("Collision", 5, 5) > 0 then
   pprint("Blocked!")
 end
@@ -295,7 +306,7 @@ end
 
 Returns the **raw position of the entity**, as stored in LDtk. This reflects the pixel position from the top-left corner (LDtk screen space).
 
-```lua
+```python
 pos = entity.positionRaw
 pprint(pos)
 // output: {x: int, y: int}
@@ -311,7 +322,7 @@ Returns the **converted position** of the entity in Cartesian or MiniMicro coord
 
 > This uses `translateCoords` internally and requires the entity’s `levelHeight` to be defined (automatically set when parsing through levels).
 
-```lua
+```python
 pos = entity.position
 pprint(pos)
 // output: {x: int, y: int}
@@ -321,7 +332,7 @@ pprint(pos)
 
 Returns a list of **all field instances** on this entity.
 
-```lua
+```python
 fields = entity.getAllFields
 for field in fields
     pprint(field.__identifier, field.__value)
@@ -337,7 +348,7 @@ end for
 
 Returns the **raw field object** matching the given field name (`identifier`). You can optionally pass the `defuid` if needed to disambiguate multiple field definitions with the same name.
 
-```lua
+```python
 field = entity.getField("Speed")
 pprint(field.__type, field.__value)
 ```
@@ -348,7 +359,7 @@ pprint(field.__type, field.__value)
 
 Returns only the **value** of the field.
 
-```lua
+```python
 speed = entity.getFieldValue("Speed")
 pprint("Speed is: " + speed)
 ```
@@ -361,7 +372,7 @@ pprint("Speed is: " + speed)
 
 Returns the **raw position of the tile** in pixels, based on LDtk's coordinate system (top-left origin).
 
-```lua
+```python
 pos = tile.positionRaw
 print(pos.x, pos.y)
 ```
@@ -374,7 +385,7 @@ print(pos.x, pos.y)
 
 Returns the **converted position** of the tile in Cartesian/MiniMicro coordinates, where Y increases upward.
 
-```lua
+```python
 pos = tile.position
 print(pos.x, pos.y)
 ```
