@@ -126,12 +126,19 @@ end function
 layerMethods.pushTilesToDisplay = function(disp)
   qa.assert(disp != null, errorPrefix + "Attempt to push tiles to display but no valid display provided")
   qa.assert(disp.mode == displayMode.tile, errorPrefix + "Attempt to push tiles to display but display provided is not a TileDisplay")
+
 	for tile in self.getAllTiles
 		x = tile.px[0] / self.__gridSize
 		y = (tile.px[1] / self.__gridSize) - 1
 		t = tile.t
 		disp.setCell(x,y,t)
 	end for
+end function
+
+// Optional shorthand, use if you don't need to manually define the config display
+layerMethods.initTileDisplay = function(disp, scale = 1)
+  disp.tileSetTileSize = self.__gridSize
+  disp.cellSize = self.__gridSize * scale
 end function
 
 layerMethods.getIntGridAt = function(x,y)

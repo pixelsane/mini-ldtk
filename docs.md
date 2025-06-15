@@ -16,7 +16,11 @@ furnitureLayer = level.getLayer("Furnitures")
 // Convenient single function to directly send tiles to to display
 display(5).mode = displayMode.tile
 display(5).tileSet = file.loadImage("/usr/tilesets/environment.png")
+
+environmentLayer.initTileDisplay 
 environmentLayer.pushTilesToDisplay(display(5))
+
+furnitureLayer.initTileDisplay 
 furnitureLayer.pushTilesToDisplay(display(5))
 
 // Ex: Bounds checking using IntGrid
@@ -191,6 +195,13 @@ layer.pushTilesToDisplay(TILE_DISP)
 
 ---
 
+### `layerMethods.initTileDisplay(disp, scale = 1)`
+
+Initializes a `TileDisplay` to match the tile size of this LDtk layer.
+
+This is a **convenient helper** for setting up a MiniMicro `TileDisplay` with the correct `tileSetTileSize` and `cellSize` based on the LDtk layer's grid size.
+
+---
 
 ### `layerMethods.getIntGridAt(x, y)`
 Returns the int grid value at the specified `(x, y)` position.
