@@ -93,6 +93,16 @@ Returns a tileset by identifier or UID.
 
 ---
 
+### `LDtkProject.pushTilesToDisplay(levelIdentifier, layerIdentifier, disp)`
+
+Convenient global helper. Grabs the specified level and layer, then calls `pushTilesToDisplay`.
+
+```lua
+project.pushTilesToDisplay("Sample", "Environment", TILE_DISP)
+```
+
+---
+
 ### `LDtkProject.getAllEnums`
 Returns all enum definitions.
 
@@ -155,6 +165,20 @@ end
 ```
 
 ---
+
+### `layerMethods.pushTilesToDisplay(disp)`
+
+Pushes all the tiles from this layer to a given `TileDisplay`.
+
+```lua
+layer = level.getLayer("Environment")
+layer.pushTilesToDisplay(TILE_DISP)
+```
+
+> The target `disp` must be a valid TileDisplay and an image tileset must be loaded.
+
+---
+
 
 ### `layerMethods.getIntGridAt(x, y)`
 Returns the int grid value at the specified `(x, y)` position.
