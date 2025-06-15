@@ -142,9 +142,15 @@ layerMethods.initTileDisplay = function(disp, scale = 1)
 end function
 
 layerMethods.getIntGridAt = function(x,y)
-	width = self.__cWid
-	index = y * width + x
-	return self.intGridCsv[index]
+  height = self.__cHei
+  width = self.__cWid
+  if x < 0 or x >= width or y < 0 or y >= height then 
+    return null 
+  end if
+
+  flippedY = (height - 1) - y
+  index = flippedY * width + x
+  return self.intGridCsv[index]
 end function
 
 levelMethods.getAllEntities = function

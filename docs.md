@@ -38,7 +38,6 @@ pprint "Player at: " + player.x + ", " + player.y
   raw.levels[0]
   raw.defs.layers
   raw.defs.entities
-
     
 ```
 
