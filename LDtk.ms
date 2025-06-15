@@ -109,7 +109,8 @@ layerMethods.getAllTilesRaw = function
 	return self.gridTiles
 end function
 
-// minimicro converted for absolute pixel and sprite drawing
+
+// minimicro converted for absolute pixel and sprite drawing within the minimicro coordinates
 layerMethods.getAllTiles = function
   raw = self.getAllTilesRaw
   translated = []
@@ -120,6 +121,17 @@ layerMethods.getAllTiles = function
   end for
   
 	return translated
+end function
+
+layerMethods.pushTilesToDisplay = function(disp)
+  qa.assert(disp != null, errorPrefix + "Attempt to push tiles to display but no valid display provided")
+  qa.assert(disp.mode == displayMode.tile, errorPrefix + "Attempt to push tiles to display but display provided is not a TileDisplay")
+	for tile in self.getAllTiles
+		x = tile.px[0] / 16
+		y = (tile.px[1] / 16) - 1
+		t = tile.t
+		disp.setCell(x,y,t)
+	end for
 end function
 
 layerMethods.getIntGridAt = function(x,y)
@@ -263,6 +275,10 @@ LDtkProject.getTileset = function(identifier, uid=null)
   return match + new tileMethods
 end function
 
+// Convenient shorthand for layerMethods.pushTilesToDisplay
+LDtkProject.pushTilesToDisplay = function(levelIdentifier, layerIdentifier, disp)
+  self.getLevel(levelIdentifier).getLayer(layerIdentifier).pushTilesToDisplay(disp)
+end function
 
 LDtkProject.getAllEnums = function
 	assertLoaded self
