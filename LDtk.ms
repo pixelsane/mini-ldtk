@@ -141,6 +141,13 @@ layerMethods.initTileDisplay = function(disp, scale = 1)
   disp.cellSize = self.__gridSize * scale
 end function
 
+layerMethods.getIntGridAtRaw = function(x,y)
+	width = self.__cWid
+	index = y * width + x
+	return self.intGridCsv[index]
+end function
+
+
 layerMethods.getIntGridAt = function(x,y)
   height = self.__cHei
   width = self.__cWid
