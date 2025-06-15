@@ -108,6 +108,7 @@ layerMethods.getAllTilesRaw = function
 	return self.gridTiles
 end function
 
+// minimicro converted for absolute pixel and sprite drawing
 layerMethods.getAllTiles = function
   raw = self.getAllTilesRaw
   translated = []
@@ -118,6 +119,33 @@ layerMethods.getAllTiles = function
   end for
   
 	return translated
+end function
+
+// Use this to pair with minimicro's `mode.tile`, it returns intended extent for proper aligned tile logic. Assign this do display.extent
+layerMethods.getExtent = function
+  return [self.__cWid, self.__cHei]
+end function
+
+// Use this to pair with minimicro's `mode.tile`, it returns source x,y (in tiles coordinates) and dest in raw tile index
+layerMethods.getGridDatas = function
+  gridTiles = self.getAllTilesRaw
+  gridWidth = self.__cHei
+  tileSize = self.__gridSize
+  
+  gridDatas = []
+  
+  for gt in gridTiles
+    srcX = gt.src[0] / tileSize
+    srcY = gt.src[1] / tileSize
+    destX = gt.px[0] / tileSize
+    destY = gt.px[1] / tileSize
+    destIndex = destX * gridWidth + destX
+    
+    data = {"srcX": srcX, "srcY": srcY, "destIndex": destIndex}
+    gridDatas.push data
+  end for
+
+  return gridDatas
 end function
 
 layerMethods.getIntGridAt = function(x,y)
@@ -254,6 +282,7 @@ LDtkProject.getTileset = function(identifier, uid=null)
   qa.assert(match != null,  errorPrefix + "getTileset (" + identifier + ", "+ uid +") " + "does not exist in Project or is not a valid property")
   return match + new tileMethods
 end function
+
 
 LDtkProject.getAllEnums = function
 	assertLoaded self
