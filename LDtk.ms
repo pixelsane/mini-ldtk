@@ -70,6 +70,7 @@ end function
 
 entityMethods.position = function
 	levelHeight = self.levelHeight
+
 	posRaw = self.positionRaw
 	return translateCoords(posRaw, levelHeight)
 end function
@@ -119,33 +120,6 @@ layerMethods.getAllTiles = function
   end for
   
 	return translated
-end function
-
-// Use this to pair with minimicro's `mode.tile`, it returns intended extent for proper aligned tile logic. Assign this do display.extent
-layerMethods.getExtent = function
-  return [self.__cWid, self.__cHei]
-end function
-
-// Use this to pair with minimicro's `mode.tile`, it returns source x,y (in tiles coordinates) and dest in raw tile index
-layerMethods.getGridDatas = function
-  gridTiles = self.getAllTilesRaw
-  gridWidth = self.__cHei
-  tileSize = self.__gridSize
-  
-  gridDatas = []
-  
-  for gt in gridTiles
-    srcX = gt.src[0] / tileSize
-    srcY = gt.src[1] / tileSize
-    destX = gt.px[0] / tileSize
-    destY = gt.px[1] / tileSize
-    destIndex = destX * gridWidth + destX
-    
-    data = {"srcX": srcX, "srcY": srcY, "destIndex": destIndex}
-    gridDatas.push data
-  end for
-
-  return gridDatas
 end function
 
 layerMethods.getIntGridAt = function(x,y)
@@ -215,6 +189,7 @@ levelMethods.getLayer = function(ddidentifier, iid=null)
   toMatch.iid = iid
   match = getAnyMatch(instances, toMatch)
   match.levelHeight = self.pxHei
+  match.tilesetsPx = self.tilesetsPx
 
   qa.assert(match != null,  errorPrefix + "getLayer (" + ddidentifier + ", "+ iid +") " + "does not exist in Level or is not a valid property")
   return match + new layerMethods
@@ -259,6 +234,11 @@ LDtkProject.getLevel = function(identifier, iid=null, uid=null)
   toMatch.iid = iid
   toMatch.uid = uid
   match = getAnyMatch(allLevels, toMatch)
+  // shove to function attachTilesetsPx
+  match.tilesetsPx = {}
+  for tileset in self.data.defs.tilesets
+    match.tilesetsPx[tileset.uid] = {"pxWid": tileset.pxWid, "pxHei": tileset.pxHei}
+  end for
 
   qa.assert(match != null,  errorPrefix + "getLevel (" + identifier + ", "+ iid +") " + "does not exist in Level or is not a valid property")
   return match + new levelMethods
