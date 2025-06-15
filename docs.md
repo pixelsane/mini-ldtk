@@ -15,11 +15,12 @@ furnitureLayer = level.getLayer("Furnitures")
 
 // Convenient single function to directly send tiles to to display
 display(5).mode = displayMode.tile
+display(5).tileSet = file.loadImage("/usr/tilesets/environment.png")
 environmentLayer.pushTilesToDisplay(display(5))
 furnitureLayer.pushTilesToDisplay(display(5))
 
 // Ex: Bounds checking using IntGrid
-isWall = layer.getIntGridAt(10, 5) == 1
+isWall = collisionLayer.getIntGridAt(10, 5) == 1
 
 pprint "Player at: " + player.x + ", " + player.y
 ```
