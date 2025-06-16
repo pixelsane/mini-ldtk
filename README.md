@@ -8,7 +8,7 @@ It contains parsing, loading and several utility helpers and convenient function
 
 This parser was created for use in my upcoming microjam 041, but I decided to share it publicly so others using MiniScript can take advantage of LDtk in their own projects.
 
-I like MiniScript/MiniMicro and plan on using it for many future projects, so this parser will be **actively maintained**. It’s currently **barebones**, but the **core functionality is sufficient** to build most types of games.
+I like MiniScript/MiniMicro and plan on using it for many future projects, so this Toolkit will be **actively maintained**. It’s currently on its **early stages**, but the **core functionality is sufficient** to build most types of games. Please notify me of any issue by DMing me on Discord, sending an email, or making a pull request.
 
 ## Features
 

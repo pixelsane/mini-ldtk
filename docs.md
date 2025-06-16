@@ -122,10 +122,6 @@ pprint "Player at: " + player.x + ", " + player.y
   enemies.optionalRules
     
 ```
-
-# LDtk Parser Cheatsheet
-
-
 ## Global and Helpers
 ### `translateCoords(coords, levelHeight)`
 
@@ -577,7 +573,7 @@ Returns the **converted position** of the tile in Cartesian/MiniMicro coordinate
 
 ```python
 pos = tile.position
-print(pos.x, pos.y)
+// output: pos = {"x": 0, "y": 0}
 ```
 
 > Internally uses `translateCoords()` and the tile’s associated level height to flip the Y-axis appropriately.
