@@ -1,5 +1,5 @@
 # Basic Usage
-## Setup
+## Setup and Extended Examples
 ```python
 // Ensure project is loaded
 project = new LDtkProject
@@ -12,6 +12,13 @@ player = level.getEntity("Player")
 collisionLayer = level.getLayer("Collision")
 environmentLayer = level.getLayer("Environment")
 furnitureLayer = level.getLayer("Furnitures")
+
+// You can also append Int Grid to a map/object and access helper functions that way
+
+house = {}
+furnitureLayer.appendIntGridToObj house
+house.chairs = house.allCoordsOfValue(1)
+house.desks = house.allCoordsOfValue(2)
 
 // Convenient single function to directly send tiles to to display
 display(5).mode = displayMode.tile
@@ -203,6 +210,7 @@ This is a **convenient helper** for setting up a MiniMicro `TileDisplay` with th
 ---
 
 ### `layerMethods.getIntGridAt(x, y)`
+
 Returns the int grid value at the specified `(x, y)` position.
 
 ```python
@@ -212,6 +220,89 @@ end
 ```
 
 ---
+
+### `layer.indexToCoords(index)`
+
+Returns **flipped Y** coordinates suitable for cartesian or MiniMicro (bottom-left origin).
+
+```python
+coords = layer.indexToCoords(42)  // {x: 10, y: 11}
+```
+
+---
+
+### `layer.indexToCoordsRaw(index)`
+
+Returns the raw LDtk-style coordinates (top-left origin) for an IntGrid cell index.
+
+```python
+coords = layer.indexToCoordsRaw(42)  // {x: 10, y: 4}
+```
+
+---
+
+### `layer.allIndexOfValue(value)`
+
+Returns a list of all indices in the IntGrid where the cell equals the specified value.
+
+```python
+indices = layer.allIndexOfValue(3)  // [5, 20, 33, 87, ...]
+```
+
+---
+
+### `layer.allCoordsOfValueRaw(value)`
+
+Returns all raw LDtk-style coordinates where the IntGrid cell equals `value`.
+
+```python
+coords = layer.allCoordsOfValueRaw(1)
+// [{x: 3, y: 2}, {x: 10, y: 6}, ...]
+```
+
+---
+
+### `layer.allCoordsOfValue(value)`
+
+Returns all flipped/cartesian-style coordinates where the IntGrid cell equals `value`.
+
+```python
+coords = layer.allCoordsOfValue(2)
+// [{x: 1, y: 13}, {x: 8, y: 7}, ...]
+```
+
+---
+
+### `layer.appendIntGridToObj(obj)`
+
+Appends the layer’s IntGrid data and helper methods to a separate object.
+
+This is useful when you want to extract a layer’s IntGrid logic for sandboxing or transformations.
+
+```python
+obj = {}
+layer.appendIntGridToObj(obj)
+
+val = obj.at(5, 3)
+coords = obj.allCoordsOfValue(2)
+```
+
+> The object will get a copy of the IntGrid CSV and a copy of the helper functions.
+
+> All helper functions appended:
+
+```python
+obj.indexToCoords(index)
+obj.indexToCoordsRaw(index)
+obj.at(x, y)        // alias of getIntGridAt (MiniMicro)
+obj.atRaw(x, y)     // alias of getIntGridAtRaw
+obj.allIndexOfValue(value)
+obj.allCoordsOfValue(value)
+obj.allCoordsOfValueRaw(value)
+```
+
+---
+
 
 ## level Methods (`levelMethods`)
 
@@ -301,8 +392,18 @@ collision = level.getLayer("Collision")
 
 ---
 
+### `levelMethods.getIntGridAtRaw(layerIdentifier, x, y)`
+Returns the int grid value at `(x, y)` for the specified layer. (Top-left origin, same as LDtk)
+
+```python
+if level.getIntGridAt("Collision", 5, 5) > 0 then
+  pprint("Blocked!")
+end
+```
+---
+
 ### `levelMethods.getIntGridAt(layerIdentifier, x, y)`
-Returns the int grid value at `(x, y)` for the specified layer.
+Returns the int grid value at `(x, y)` for the specified layer. (Uses bottom-left origin same as MiniMicro Tiles)
 
 ```python
 if level.getIntGridAt("Collision", 5, 5) > 0 then

@@ -147,7 +147,7 @@ layerMethods.getIntGridAtRaw = function(x,y)
 	return self.intGridCsv[index]
 end function
 
-
+// Flips Y axis
 layerMethods.getIntGridAt = function(x,y)
   height = self.__cHei
   width = self.__cWid
@@ -158,6 +158,75 @@ layerMethods.getIntGridAt = function(x,y)
   flippedY = (height - 1) - y
   index = flippedY * width + x
   return self.intGridCsv[index]
+end function
+
+layerMethods.indexToCoordsRaw = function(index)
+  x = index % self.__cWid
+  y = floor(index / self.__cWid)
+  return {"x": x, "y": y}
+end function
+
+// Flipped Y
+layerMethods.indexToCoords = function(index)
+  x = index % self.__cWid
+  y = floor(index / self.__cWid)
+  flippedY = (self.__cHei - 1) - y
+  return {"x": x, "y": flippedY}
+end function
+
+layerMethods.allIndexOfValue = function(value)
+  stack = []
+  for i in range(0, self.intGridCsv.len - 1)
+    val = self.intGridCsv[i]
+    if val == value then
+      stack.push i
+    end if
+  end for
+  return stack
+end function
+
+layerMethods.allCoordsOfValueRaw = function(value)
+  indexes = self.allIndexOfValue(value)
+  stack = []
+
+  if indexes == [] then
+    return []
+  end if
+
+  for i in range(0, indexes.len - 1)
+    stack.push(self.indexToCoordsRaw(indexes[i]))
+  end for
+  return stack
+end function
+
+
+layerMethods.allCoordsOfValue = function(value)
+  indexes = self.allIndexOfValue(value)
+  stack = []
+
+  if indexes == [] then
+    return []
+  end if
+
+  for i in range(0, indexes.len - 1)
+    stack.push(self.indexToCoords(indexes[i]))
+  end for
+  return stack
+end function
+
+// Append Int Grid to Obj to work with intGrids within a separate context. Helper methods will also be appended
+layerMethods.appendIntGridToObj = function(obj)
+  //qa.assertType()
+  obj.intGridCsv = self.intGridCsv
+  obj.__cHei = self.__cHei
+  obj.__cWid = self.__cWid
+  obj.indexToCoords = @layerMethods.indexToCoords
+  obj.indexToCoordsRaw = @layerMethods.indexToCoordsRaw
+  obj.at = @layerMethods.getIntGridAt
+  obj.atRaw = @layerMethods.getIntGridAtRaw
+  obj.allIndexOfValue = @layerMethods.allIndexOfValue
+  obj.allCoordsOfValue = @layerMethods.allCoordsOfValue
+  obj.allCoordsOfValueRaw = @layerMethods.allCoordsOfValueRaw
 end function
 
 levelMethods.getAllEntities = function
