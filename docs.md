@@ -62,7 +62,7 @@ pprint "Player at: " + player.x + ", " + player.y
 
 
 ## Global and Helpers
-### `translateCoords(coords, levelHeight, to="minimicro")`
+### `translateCoords(coords, levelHeight)`
 
 Converts a coordinate map between **LDtk (top-down)** and **MiniMicro/Cartesian (bottom-up)** systems.
 
@@ -321,7 +321,8 @@ Returns all entities in the level.
 
 ```python
 for ent in level.getAllEntities
-  pprint(ent.identifier, ent.x, ent.y)
+  pprint(ent.identifier)
+  pprint([ent.x, ent.y])
 end
 ```
 
