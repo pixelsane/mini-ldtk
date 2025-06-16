@@ -466,7 +466,6 @@ end for
 
 ---
 
-
 ### `entity.getField(identifier, defuid = null)`
 
 Returns the **raw field object** matching the given field name (`identifier`). You can optionally pass the `defuid` if needed to disambiguate multiple field definitions with the same name.

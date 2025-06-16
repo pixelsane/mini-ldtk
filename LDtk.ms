@@ -45,10 +45,10 @@ end function
 
 // classMethods (are only appended when needed, hence it does not exist in data.levels[])
 LDtkProps = {"supersimple": false, "data":null}
-levelMethods = new {}
-layerMethods = new {}
-entityMethods = new {}
-tileMethods = new {}
+levelMethods = {}
+layerMethods = {}
+entityMethods = {}
+tileMethods = {}
 
 tileMethods.positionRaw = function
 	x = self.px[0]
