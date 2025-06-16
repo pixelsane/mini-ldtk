@@ -100,7 +100,7 @@ Returns a list of all levels.
 
 ```python
 for level in project.getAllLevels
-  pprint(level.name)
+  pprint level.name
 end
 ```
 
@@ -321,8 +321,8 @@ Returns all entities in the level.
 
 ```python
 for ent in level.getAllEntities
-  pprint(ent.identifier)
-  pprint([ent.x, ent.y])
+  pprint ent.identifier
+  pprint [ent.x, ent.y]
 end
 ```
 
@@ -388,8 +388,8 @@ sz = level.size
 Returns the grid dimensions of the level.
 
 ```python
-grid = level.gridSize
-pprint(grid.width, grid.height)
+grid = level.gridSize 
+// output: {"width": 20, "height": 30}
 ```
 
 ---
@@ -431,7 +431,7 @@ Returns the **raw position of the entity**, as stored in LDtk. This reflects the
 
 ```python
 pos = entity.positionRaw
-pprint(pos)
+pprint pos
 // output: {x: int, y: int}
 ```
 
@@ -447,7 +447,7 @@ Returns the **converted position** of the entity in Cartesian or MiniMicro coord
 
 ```python
 pos = entity.position
-pprint(pos)
+pprint pos
 // output: {x: int, y: int}
 ```
 ---
@@ -459,7 +459,8 @@ Returns a list of **all field instances** on this entity.
 ```python
 fields = entity.getAllFields
 for field in fields
-    pprint(field.__identifier, field.__value)
+    pprint field.__identifier
+    pprint field.__value
 end for
 
 > Each field instance is a map with metadata like `__identifier`, `__type`, and `__value`.
@@ -473,7 +474,8 @@ Returns the **raw field object** matching the given field name (`identifier`). Y
 
 ```python
 field = entity.getField("Speed")
-pprint(field.__type, field.__value)
+field.__type
+field.__value
 ```
 
 ---
