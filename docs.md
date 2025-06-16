@@ -1,4 +1,69 @@
-# Basic Usage
+# Mini-LDtk Documentation
+> v0.1
+
+## Table of Contents
+
+- [Setup and Extended Examples](#setup-and-extended-examples)
+- [Accessing Raw LDtk Data](#accessing-raw-ldtk-data)
+- [Global and Helpers](#global-and-helpers)
+  - [translateCoords(coords, levelHeight)](#translatecoordscords-levelheight)
+- [LDtkProject Methods](#ldtkproject-methods)
+  - [LDtkProject.loadFile(dir, supersimple = false)](#ldtkprojectloadfiledir-supersimple--false)
+  - [LDtkProject.getAllLevels](#ldtkprojectgetalllevels)
+  - [LDtkProject.getLevel(identifier, iid = null, uid = null)](#ldtkprojectgetlevelidentifier-iid--null-uid--null)
+  - [LDtkProject.getAllTilesets](#ldtkprojectgetalltilesets)
+  - [LDtkProject.getTileset(identifier, uid = null)](#ldtkprojectgettilesetidentifier-uid--null)
+  - [LDtkProject.pushTilesToDisplay(levelIdentifier, layerIdentifier, disp)](#ldtkprojectpushtilestodisplaylevelidentifier-layeridentifier-disp)
+  - [LDtkProject.getAllEnums](#ldtkprojectgetallenums)
+  - [LDtkProject.getEnum(identifier, uid = null)](#ldtkprojectgetenumidentifier-uid--null)
+  - [LDtkProject.getEnumValue(id, enumIdentifier, enumUid = false)](#ldtkprojectgetenumvalueid-enumidentifier-enumuid--false)
+  - [LDtkProject.defaultGridSize](#ldtkprojectdefaultgridsize)
+  - [LDtkProject.levelSize(identifier, id = null, iid = null)](#ldtkprojectlevelsizeidentifier-id--null-iid--null)
+- [Layer Methods (`layerMethods`)](#layer-methods-layermethods)
+  - [layerMethods.name](#layermethodsname)
+  - [layerMethods.gridToIndex(x, y)](#layermethodsgridtoindexx-y)
+  - [layerMethods.getAllTiles](#layermethodsgetalltiles)
+  - [layerMethods.pushTilesToDisplay(disp)](#layermethodspushtilestodisplaydisp)
+  - [layerMethods.initTileDisplay(disp, scale = 1)](#layermethodsinittiledisplaydisp-scale--1)
+  - [layerMethods.getIntGridAt(x, y)](#layermethodsgetintgridatx-y)
+  - [layer.indexToCoords(index)](#layerindextocoordsindex)
+  - [layer.indexToCoordsRaw(index)](#layerindextocoordsrawindex)
+  - [layer.allIndexOfValue(value)](#layerallindexofvaluevalue)
+  - [layer.allCoordsOfValueRaw(value)](#layerallcoordsofvaluerawvalue)
+  - [layer.allCoordsOfValue(value)](#layerallcoordsofvaluevalue)
+  - [layer.appendIntGridToObj(obj)](#layerappendintgridtoobjobj)
+- [Level Methods (`levelMethods`)](#level-methods-levelmethods)
+  - [levelMethods.getAllEntities](#levelmethodsgetallentities)
+  - [levelMethods.getEntity(identifier, iid = null)](#levelmethodsgetentityidentifier-iid--null)
+  - [levelMethods.name](#levelmethodsname)
+  - [levelMethods.position](#levelmethodsposition)
+  - [level.positionRaw](#levelpositionraw)
+  - [levelMethods.size](#levelmethodssize)
+  - [levelMethods.gridSize](#levelmethodsgridsize)
+  - [levelMethods.getLayer(identifier, iid = null)](#levelmethodsgetlayeridentifier-iid--null)
+  - [levelMethods.getIntGridAtRaw(layerIdentifier, x, y)](#levelmethodsgetintgridatrawlayeridentifier-x-y)
+  - [levelMethods.getIntGridAt(layerIdentifier, x, y)](#levelmethodsgetintgridatlayeridentifier-x-y)
+- [Entity Methods (`entityMethods`)](#entity-methods-entitymethods)
+  - [entity.positionRaw](#entitypositionraw)
+  - [entity.position](#entityposition)
+  - [entity.getAllFields](#entitygetallfields)
+  - [entity.getField(identifier, defuid = null)](#entitygetfieldidentifier-defuid--null)
+  - [entity.getFieldValue(identifier, defuid = null)](#entitygetfieldvalueidentifier-defuid--null)
+- [Tile Methods (`tileMethods`)](#tile-methods-tilemethods)
+  - [tile.positionRaw](#tilepositionraw)
+  - [tile.position](#tileposition)
+
+---
+
+### Known Limitations / In The Near Future
+
+- No built-in support yet for LDtk layers with auto-layer rules.
+- No built-in support for level/world transitions — recommended to manually manage world navigation logic in your game loop.
+
+> However all properties are accessible and in combination with convenient helpers, implementations becomes easy. Contributions are welcome!
+
+---
+
 ## Setup and Extended Examples
 ```python
 // Ensure project is loaded
