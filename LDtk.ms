@@ -43,7 +43,7 @@ getAnyMatch = function(obj, mObj)
 	end for
 end function
 
-// classMethods (are only appended when needed, hence it does not exist in data.levels[])
+// classMethods (are only appended when needed, hence it does not exist in data.levels[] -- Nor should this be accessed directly)
 LDtkProps = {"supersimple": false, "data":null}
 levelMethods = {}
 layerMethods = {}

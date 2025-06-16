@@ -23,11 +23,11 @@ house.desks = house.allCoordsOfValue(2)
 display(5).mode = displayMode.tile
 display(5).tileSet = file.loadImage("/usr/tilesets/environment.png")
 
-environmentLayer.initTileDisplay 
-environmentLayer.pushTilesToDisplay(display(5))
+environmentLayer.initTileDisplay display(5)
+environmentLayer.pushTilesToDisplay display(5)
 
-furnitureLayer.initTileDisplay 
-furnitureLayer.pushTilesToDisplay(display(5))
+furnitureLayer.initTileDisplay display(5)
+furnitureLayer.pushTilesToDisplay display(5)
 
 // Ex: Bounds checking using IntGrid
 isWall = collisionLayer.getIntGridAt(10, 5) == 1
