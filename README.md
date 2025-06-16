@@ -48,12 +48,12 @@ display(5).mode = displayMode.tile
 display(5).tileSet = file.loadImage("/usr/tilesets/environment.png")
 
 // Convenient single function to configure TileDisplay but it is optional
-environmentLayer.initTileDisplay 
-furnitureLayer.initTileDisplay 
+environmentLayer.initTileDisplay display(5)
+furnitureLayer.initTileDisplay display(5)
 
 // Convenient single function to directly send tiles to to display
-environmentLayer.pushTilesToDisplay(display(5))
-furnitureLayer.pushTilesToDisplay(display(5))
+environmentLayer.pushTilesToDisplay display(5)
+furnitureLayer.pushTilesToDisplay display(5)
 
 // Ex: Bounds checking using IntGrid
 isWall = collisionLayer.getIntGridAt(10, 5) == 1
