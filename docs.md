@@ -14,7 +14,6 @@ environmentLayer = level.getLayer("Environment")
 furnitureLayer = level.getLayer("Furnitures")
 
 // You can also append Int Grid to a map/object and access helper functions that way
-
 house = {}
 furnitureLayer.appendIntGridToObj house
 house.chairs = house.allCoordsOfValue(1)
@@ -36,7 +35,7 @@ isWall = collisionLayer.getIntGridAt(10, 5) == 1
 pprint "Player at: " + player.x + ", " + player.y
 ```
 
-## Access Raw LDtk Data
+## Accessing Raw LDtk Data
 ```python
   // Raw LDtk/JSON data can be found in
   raw = LDtkProject.data
@@ -45,6 +44,18 @@ pprint "Player at: " + player.x + ", " + player.y
   raw.levels[0]
   raw.defs.layers
   raw.defs.entities
+
+  // Also all expected nested data exists in every get methods
+  firstLevel = raw.getLevel("Level_1")
+  enemies = firstLevel.getLayer("Enemies")
+
+  firstLevel.worldX
+  firstLevel.__bgColor
+
+  enemies.__opacity
+  enemies.visible
+  enemies.optionalRules
+
     
 ```
 
@@ -289,7 +300,7 @@ coords = obj.allCoordsOfValue(2)
 
 > The object will get a copy of the IntGrid CSV and a copy of the helper functions.
 
-> All helper functions appended:
+All helper functions appended:
 
 ```python
 obj.indexToCoords(index)
@@ -439,6 +450,7 @@ pos = entity.position
 pprint(pos)
 // output: {x: int, y: int}
 ```
+---
 
 ### `entity.getAllFields`
 
