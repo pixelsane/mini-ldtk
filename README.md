@@ -27,7 +27,9 @@ The parser is minimal, but it includes everything needed for most practical use 
 
 ## Usage Example
 
-[Here](https://github.com/pixelsane/mini-ldtk/blob/main/docs.md)'s a very short documentation.
+[DOCUMENTATION](https://github.com/pixelsane/mini-ldtk/blob/main/docs.md)
+
+Example and Setup
 
 ```python
 // Ensure project is loaded
@@ -71,12 +73,10 @@ A complete breakdown of available methods and how to use them is available in th
 
 ## Planned Improvements
 
-- Add a non-minimicro dependent version. Replacing qa and json.
 - Full support for entity fields and complex types
 - Helper functions for common queries
 - Layer type introspection
 - Better error handling and validation
-- Integrated MiniMicro sprite display support
 
 ## Contributing
 
