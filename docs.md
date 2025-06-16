@@ -560,7 +560,7 @@ Returns the **raw position of the tile** in pixels, based on LDtk's coordinate s
 
 ```python
 pos = tile.positionRaw
-print(pos.x, pos.y)
+// output: pos = {"x": 0, "y": 0}
 ```
 
 > Use this for working with LDtk-native layouts or matching tiles directly to visual assets.
