@@ -1,13 +1,14 @@
 
-# MiniScript LDtk Parser
+# MiniMicro LDtk Toolkit
 
-This is a **MiniScript LDtk parser** — a library for working with [LDtk](https://ldtk.io) level files inside MiniScript projects.
+This is a **MiniScript LDtk Toolkit** — a library for working with [LDtk](https://ldtk.io) level files inside MiniMicro projects.
+It contains parsing, loading and several utility helpers and convenient functions to make game development within MiniMicro easier.
 
 ## Why?
 
 This parser was created for use in my upcoming microjam 041, but I decided to share it publicly so others using MiniScript can take advantage of LDtk in their own projects.
 
-I like MiniScript and plan on using it for many future projects, so this parser will be **actively maintained**. It’s currently **barebones**, but the **core functionality is sufficient** to build most types of games.
+I like MiniScript/MiniMicro and plan on using it for many future projects, so this parser will be **actively maintained**. It’s currently **barebones**, but the **core functionality is sufficient** to build most types of games.
 
 ## Features
 
@@ -17,19 +18,28 @@ I like MiniScript and plan on using it for many future projects, so this parser 
 - Retrieve placed entities and their fields
 - Access enum definitions and values
 - Supports tiled and grid-based logic
+- Several utility functions and helpers
 
 ## Current Status
 
 The parser is minimal, but it includes everything needed for most practical use cases:
 
-- No dependencies
+- No dependencies (Except for MiniMicro sysdisk libraries)
 - No loops required to use it
 
-## Usage Example
+## Usage
 
-[DOCUMENTATION](https://github.com/pixelsane/mini-ldtk/blob/main/docs.md)
+[Full Documentation/API](https://github.com/pixelsane/mini-ldtk/blob/main/docs.md)
 
-Example and Setup
+A complete breakdown of available methods and how to use them is available in the `docs.md` file or as linked above. The parser includes accessors for:
+
+- Project, contains all subsequent classes (`LDtkProject`)
+- Level metadata and contents
+- Layer data (tiles, int grids, etc.)
+- Entities and their fields
+- Enums and enum values
+
+### Example and Setup
 
 ```python
 // Ensure project is loaded
@@ -61,15 +71,8 @@ isWall = collisionLayer.getIntGridAt(10, 5) == 1
 pprint "Player at: " + player.x + ", " + player.y
 ```
 
-## API Overview
-
-A complete breakdown of available methods and how to use them is available in the `docs.md` file. The parser includes accessors for:
-
-- Project, contains all subsequent classes (`LDtkProject`)
-- Level metadata and contents
-- Layer data (tiles, int grids, etc.)
-- Entities and their fields
-- Enums and enum values
+## Projects made including mini-LDtk
+  COMING SOON
 
 ## Planned Improvements
 
