@@ -55,7 +55,6 @@ pprint "Player at: " + player.x + ", " + player.y
   enemies.__opacity
   enemies.visible
   enemies.optionalRules
-
     
 ```
 
@@ -65,14 +64,14 @@ pprint "Player at: " + player.x + ", " + player.y
 ## Global and Helpers
 ### `translateCoords(coords, levelHeight, to="minimicro")`
 
-Converts a coordinate table between **LDtk (top-down)** and **MiniMicro/Cartesian (bottom-up)** systems.
+Converts a coordinate map between **LDtk (top-down)** and **MiniMicro/Cartesian (bottom-up)** systems.
 
 #### Parameters:
 - `coords`: A coordinate map containing `{x, y}`
 - `levelHeight`: The height of the level in pixels
 
 #### Returns:
-A new `{x, y}` table with Y-axis flipped or adjusted.
+A new `{x, y}` map with Y-axis flipped or adjusted.
 
 #### Example:
 ```python
@@ -462,7 +461,7 @@ for field in fields
     pprint(field.__identifier, field.__value)
 end for
 
-> Each field instance is a table with metadata like `__identifier`, `__type`, and `__value`.
+> Each field instance is a map with metadata like `__identifier`, `__type`, and `__value`.
 ```
 
 ---
