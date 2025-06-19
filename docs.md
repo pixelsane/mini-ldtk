@@ -226,9 +226,9 @@ ppprint [size.width, size.height]
 
 ---
 
-## Layer Methods (`layerMethods`)
+## LayerMethods
 
-### `layerMethods.name`
+### `layer.name`
 Returns the name of the layer.
 
 ```python
@@ -237,7 +237,7 @@ pprint layer.name --> "Collision"
 
 ---
 
-### `layerMethods.gridToIndex(x, y)`
+### `layer.gridToIndex(x, y)`
 Converts grid coordinates `(x, y)` into a 1D array index.
 
 ```python
@@ -246,7 +246,7 @@ index = layer.gridToIndex(3, 5)
 
 ---
 
-### `layerMethods.getAllTiles`
+### `layer.getAllTiles`
 Returns a list of all tiles in the layer.
 
 ```python
@@ -259,7 +259,7 @@ end
 
 ---
 
-### `layerMethods.pushTilesToDisplay(disp)`
+### `layer.pushTilesToDisplay(disp)`
 
 Pushes all the tiles from this layer to a given `TileDisplay`.
 
@@ -272,7 +272,7 @@ layer.pushTilesToDisplay(TILE_DISP)
 
 ---
 
-### `layerMethods.initTileDisplay(disp, scale = 1)`
+### `layer.initTileDisplay(disp, scale = 1)`
 
 Initializes a `TileDisplay` to match the tile size of this LDtk layer.
 
@@ -280,7 +280,7 @@ This is a **convenient helper** for setting up a MiniMicro `TileDisplay` with th
 
 ---
 
-### `layerMethods.getIntGridAt(x, y)`
+### `layer.getIntGridAt(x, y)`
 
 Returns the int grid value at the specified `(x, y)` position.
 
@@ -375,9 +375,9 @@ obj.allCoordsOfValueRaw(value)
 ---
 
 
-## level Methods (`levelMethods`)
+## level Methods (`level.)
 
-### `levelMethods.getAllEntities`
+### `level.getAllEntities`
 Returns all entities in the level.
 
 ```python
@@ -389,7 +389,7 @@ end
 
 ---
 
-### `levelMethods.getEntity(identifier, iid = null)`
+### `level.getEntity(identifier, iid = null)`
 Returns the first matching entity by identifier or `iid`.
 
 ```python
@@ -398,7 +398,7 @@ player = level.getEntity("Player")
 
 ---
 
-### `levelMethods.name`
+### `level.name`
 Returns the level name.
 
 ```python
@@ -407,7 +407,7 @@ pprint level.name --> "Level_1"
 
 ---
 
-### `levelMethods.position`
+### `level.position`
 
 Returns the level's **position in Cartesian/MiniMicro coordinates**, where Y increases upward.
 
@@ -435,7 +435,7 @@ print(rawPos.x, rawPos.y)
 
 ---
 
-### `levelMethods.size`
+### `level.size`
 Returns the size of the level in pixels.
 
 ```python
@@ -445,7 +445,7 @@ sz = level.size
 
 ---
 
-### `levelMethods.gridSize`
+### `level.gridSize`
 Returns the grid dimensions of the level.
 
 ```python
@@ -455,7 +455,7 @@ grid = level.gridSize
 
 ---
 
-### `levelMethods.getLayer(identifier, iid = null)`
+### `level.getLayer(identifier, iid = null)`
 Returns a specific layer by its identifier or `iid`.
 
 ```python
@@ -464,7 +464,7 @@ collision = level.getLayer("Collision")
 
 ---
 
-### `levelMethods.getIntGridAtRaw(layerIdentifier, x, y)`
+### `level.getIntGridAtRaw(layerIdentifier, x, y)`
 Returns the int grid value at `(x, y)` for the specified layer. (Top-left origin, same as LDtk)
 
 ```python
@@ -474,7 +474,7 @@ end
 ```
 ---
 
-### `levelMethods.getIntGridAt(layerIdentifier, x, y)`
+### `level.getIntGridAt(layerIdentifier, x, y)`
 Returns the int grid value at `(x, y)` for the specified layer. (Uses bottom-left origin same as MiniMicro Tiles)
 
 ```python
