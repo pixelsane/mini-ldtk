@@ -19,7 +19,7 @@
   - [getEnumValue](#ldtkprojectgetenumvalueid-enumidentifier-enumuid--false)
   - [defaultGridSize](#ldtkprojectdefaultgridsize)
   - [levelSize](#ldtkprojectlevelsizeidentifier-id--null-iid--null)
-- [Layer](#layer-methods-layermethods)
+- [Layer](#layer-methods)
   - [name](#layermethodsname)
   - [gridToIndex](#layermethodsgridtoindexx-y)
   - [getAllTiles](#layermethodsgetalltiles)
@@ -32,7 +32,7 @@
   - [allCoordsOfValueRaw](#layerallcoordsofvaluerawvalue)
   - [allCoordsOfValue](#layerallcoordsofvaluevalue)
   - [appendIntGridToObj](#layerappendintgridtoobjobj)
-- [Level](#level-methods-levelmethods)
+- [Level](#level-methods)
   - [getAllEntities](#levelmethodsgetallentities)
   - [getEntity](#levelmethodsgetentityidentifier-iid--null)
   - [name](#levelmethodsname)
@@ -375,7 +375,7 @@ obj.allCoordsOfValueRaw(value)
 ---
 
 
-## level Methods (`level.)
+## levelMethods
 
 ### `level.getAllEntities`
 Returns all entities in the level.
