@@ -1,6 +1,6 @@
 // Open up jamVersion.LDtk, to learn more about my current setup
 
-import "../mini-ldtk/LDtk"
+import "../../LDtk"
 import "qa"
 import "spriteCon"
 
@@ -16,13 +16,14 @@ gameState = {"currentLevel": 0, "levelNames": ["Sample", "Sample2"]}
 jam = new LDtkProject
 jam.loadFile dataDir + "jamVersion.ldtk"
 bg = file.loadImage("./assets/background.png")
-
+screenW = 960 / 2
+screenH = 640 / 2
 
 // Display Stuff
 display(4).mode = displayMode.sprite
 display(5).mode = displayMode.tile
 display(6).mode = displayMode.pixel
-display(6).drawImage bg
+display(6).drawImage bg, 0, 0, screenW, screenH
 dispScale = 2
 
 TILE_DISP = display(5)
@@ -74,11 +75,11 @@ addFromLDtk = function(name, LDtkProj)
 	defaultPos.y *= dispScale
 	defaultPos.x += spriteSize[0]
 	defaultPos.y += spriteSize[1]
-  fieldsToAssign = ["runSpeed", "runAccel", "stopAccel", "climbSpeed", "jumpSpeed", "gravity", "boost", "flyAccel"]
-
-  for field in fieldsToAssign
-    newEnt.spr[field] = LDtkEnt.getFieldValue(field)
-  end for
+	fieldsToAssign = ["runSpeed", "runAccel", "stopAccel", "climbSpeed", "jumpSpeed", "gravity", "boost", "flyAccel"]
+	
+	for field in fieldsToAssign
+		newEnt.spr[field] = LDtkEnt.getFieldValue(field)
+	end for
 	
 	loadFramesets(newEnt, LDtkEnt, "idleAnim", "idleFrameset")
 	loadFramesets(newEnt, LDtkEnt, "runAnim", "runFrameset")
