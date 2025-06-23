@@ -44,7 +44,10 @@ getAnyMatch = function(obj, mObj)
 end function
 
 // classMethods (are only appended when needed, hence it does not exist in data.levels[] -- Nor should this be accessed directly)
-LDtkProps = {"supersimple": false, "data":null}
+LDtkProps = function
+  return {"supersimple": false, "data":null}
+end function
+
 levelMethods = {}
 layerMethods = {}
 entityMethods = {}
@@ -301,7 +304,7 @@ levelMethods.getIntGridAt = function(layerIdentifier,x,y)
 end function
 
 // Main class
-globals.LDtkProject = new LDtkProps
+globals.LDtkProject = LDtkProps
 
 assertLoaded = function(project)
 	qa.assert(project.data != null, errorPrefix + " No valid LDtkProject loaded!")
