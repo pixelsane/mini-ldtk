@@ -1,7 +1,6 @@
 // Open up jamVersion.LDtk, to learn more about my current setup
 
 import "../../LDtk"
-import "qa"
 import "spriteCon"
 
 clear
