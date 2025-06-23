@@ -59,7 +59,6 @@ end function
 
 // gets all the needed data from LDtk with a single function
 addFromLDtk = function(name, LDtkProj)
-	
 	newEnt = {}
 	newEnt.name = name
 	newEnt.spr = new Platformer
@@ -75,15 +74,11 @@ addFromLDtk = function(name, LDtkProj)
 	defaultPos.y *= dispScale
 	defaultPos.x += spriteSize[0]
 	defaultPos.y += spriteSize[1]
-	
-	newEnt.spr.runSpeed = LDtkEnt.getFieldValue("runSpeed")
-	newEnt.spr.runAccel = LDtkEnt.getFieldValue("runAccel")
-	newEnt.spr.stopAccel = LDtkEnt.getFieldValue("stopAccel")
-	newEnt.spr.climbSpeed = LDtkEnt.getFieldValue("climbSpeed")
-	newEnt.spr.jumpSpeed = LDtkEnt.getFieldValue("jumpSpeed")
-	newEnt.spr.gravity = LDtkEnt.getFieldValue("gravity")
-	newEnt.spr.boost = LDtkEnt.getFieldValue("boost")
-	newEnt.spr.flyAccel = LDtkEnt.getFieldValue("flyAccel")
+  fieldsToAssign = ["runSpeed", "runAccel", "stopAccel", "climbSpeed", "jumpSpeed", "gravity", "boost", "flyAccel"]
+
+  for field in fieldsToAssign
+    newEnt.spr[field] = LDtkEnt.getFieldValue(field)
+  end for
 	
 	loadFramesets(newEnt, LDtkEnt, "idleAnim", "idleFrameset")
 	loadFramesets(newEnt, LDtkEnt, "runAnim", "runFrameset")
